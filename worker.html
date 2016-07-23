@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>web worker demo</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="worker.css">
+</head>
+<body>
+	<div class="con">
+		<div class="sec" id="sec">
+		</div>
+	</div>
+	<script>
+		var worker = new Worker("filterNum.js");
+		worker.postMessage("");
+		worker.onmessage = function(event){
+			if(event.data != ""){
+				var intArray = event.data.split(";");
+				var sec = document.getElementById("sec");
+				var len = intArray.length;
+				var html = "<h4>选中随机产生10000个数中能被3整除的数，共"+len+"个</h4>";
+				for(var i = 0;i<len;i++){
+					html += "<span class='filterNum'>"+intArray[i]+"</span>";
+				}
+				sec.innerHTML = html;
+			}
+		};
+	</script>
+</body>
+</html>
